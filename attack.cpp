@@ -133,8 +133,14 @@ DWORD WINAPI apmAndClock(LPVOID lpParam) {
 	}
 	LPVOID lpAddr = VirtualAllocEx(hProcess, NULL, BUF_SIZE, MEM_COMMIT, PAGE_READWRITE);
 	if (NULL == lpAddr) {
-		printf("VirtualAllocEx() failure.\n");
-		return 1;
+		GetExitCodeProcess(hProcess, &exitCode);
+		if (STILL_ACTIVE != exitCode) {
+			printf("Notepad++ has quit.(StopFunc: PRINT APM AND CLOCK)\n");
+			printf("press \'q\'\n");
+
+			CloseHandle(hProcess);
+			return 0;
+		}
 	}
 	/////
 
@@ -224,8 +230,19 @@ DWORD WINAPI leakFile(LPVOID lpParam) {
 	// VirtualAlloc For Scintilla Actions
 	LPVOID sci_tr = VirtualAllocEx(hProcess, NULL, sizeof(Sci_TextRangeFull)+1, MEM_COMMIT, PAGE_READWRITE);
 	if (NULL == sci_tr) {
-		printf("VirtualAllocEx() failure.\n");
-		return 1;
+
+		GetExitCodeProcess(hProcess, &exitCode);
+		if (STILL_ACTIVE != exitCode) {
+			printf("Notepad++ has quit.(StopFunc: STORE LEAKED MEMORY)\n");
+			printf("press \'q\'\n");
+
+			CloseHandle(hProcess);
+			return 0;
+		}
+		else {
+			printf("VirtualAllocEx() failure.\n");
+			return 1;
+		}
 	}
 	//////
 

@@ -4,4 +4,4 @@
 
 공격 프로그램의 경우 attack.cpp로 생성한 단일 exe 프로그램으로 동작하며, 방어 프로그램의 경우, defense.cpp로 생성한 exe 프로그램과 defense_dll.cpp로 생성한 DLL 파일을 통해 동작합니다.
 
-정확한 구현 방식은 Manual.pdf에서 기술하고 있습니다.
+구체적인 구현 방식은 Manual.pdf에서 기술하고 있습니다.
